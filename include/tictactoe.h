@@ -44,7 +44,7 @@ class tictactoe {
         mark current_player; // Mark of the current player.
         
         // Writes a string representation of the board to the output.
-        void draw_board(mark b[SIZE][SIZE]) const;
+        void draw_board() const;
 
         // Determines whether a move is valid.
         bool is_valid_move(move const &mv) const;
@@ -53,24 +53,24 @@ class tictactoe {
         move read_move() const;     
 
         // Determines if the board is completely filled.
-        bool is_filled(mark b[SIZE][SIZE]) const;
+        bool is_filled() const;
 
         // Evaluates a the state of the board.
         // Returns 10 if noughts won, -10 if crosses won, or 0 if its a draw.
         // Returns INT_MIN  when board is not in a terminal state.
-        int evaluate_board(mark b[SIZE][SIZE]) const;
+        int evaluate_board() const;
 
         // Finds the best possible move for the AI.
-        move find_best_move(mark b[SIZE][SIZE]);
+        move find_best_move();
 
         // Minimum value part of the minimax-algorithm for deciding the best possible score.
-        int mini(mark b[SIZE][SIZE]);
+        int mini();
 
         // Maximum value part of the minimax-algorithm for deciding the best possible score.
-        int maxi(mark b[SIZE][SIZE]);        
-
-        // Clears all text in terminal.
-        void clear_terminal() const;
+        int maxi();
 };
+
+// Clears all text in the terminal.
+void clear_terminal();
 
 #endif
