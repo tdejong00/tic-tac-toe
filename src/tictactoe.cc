@@ -2,26 +2,22 @@
 
 #include "../include/tictactoe.h"
 
-
 tictactoe::tictactoe() {
-    // initialize board
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            this->board[i][j] = mark::empty;
-        }
-    }
-
-    this->player = mark::nought;
-    this->opponent = mark::cross;
-    this->current_player = this->opponent;
+    // crosses always begins
+    this->current_player = mark::cross;
 }
 
 tictactoe::~tictactoe() {
     // TODO: Implement if necessary
 }
 
+void tictactoe::play_game(bool const &is_random_ai, bool const &is_crosses) {
+    this->reset_board();
 
-void tictactoe::play_game(bool const &is_random_ai) {
+    // set correct marks
+    this->player = is_crosses ? mark::cross : mark::nought;
+    this->opponent = is_crosses ? mark::nought : mark::cross;
+
     // repeat while board is not in a terminal state
     while (this->evaluate_board() == INT_MIN) {
         clear_terminal();
@@ -52,8 +48,12 @@ void tictactoe::play_game(bool const &is_random_ai) {
                     mv = {r, c};
                 }
             }
+            else if (is_crosses) {
+
+                mv = this->find_best_move_nought();
+            }
             else {
-                mv = this->find_best_move();
+                mv = this->find_best_move_cross();
             }
 
             // do move and switch player
@@ -73,10 +73,17 @@ void tictactoe::play_game(bool const &is_random_ai) {
     switch (score) {
         case 0: std::cout << "It's a draw." << std::endl; break;
         case 10: std::cout << "Crosses won!" << std::endl; break;
-        default: std::cout << "Noughts won!" << std::endl; break;        
+        default: std::cout << "Noughts won!" << std::endl; break;
     }
 }
 
+void tictactoe::reset_board() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            this->board[i][j] = mark::empty;
+        }
+    }
+}
 
 void tictactoe::draw_board() const {
     std::cout << APPNAME << " " << VERSION << std::endl << std::endl;
@@ -87,7 +94,7 @@ void tictactoe::draw_board() const {
         for (int j = 0; j < SIZE; j++) {
             switch (this->board[i][j]) {
                 case mark::nought: std::cout << " o "; break;
-                case mark::cross: std::cout << " x "; break;            
+                case mark::cross: std::cout << " x "; break;
                 default: std::cout << "   "; break;
             }
             if (j < 2) {
@@ -103,7 +110,6 @@ void tictactoe::draw_board() const {
     std::cout << std::endl << "You are playing as " << (this->player == mark::nought ? "noughts" : "crosses") << '.' << std::endl;
 }
 
-
 bool tictactoe::is_valid_move(move const &mv) const {
     if (mv.row < 0 || mv.row > 2 || mv.column < 0 || mv.column > 2) {
         return false;
@@ -111,8 +117,7 @@ bool tictactoe::is_valid_move(move const &mv) const {
     return this->board[mv.row][mv.column] == mark::empty;
 }
 
-
-move tictactoe::read_move() const {    
+move tictactoe::read_move() const {
     int row = -1, column = -1;
 
     std::cout << "Type a row number: ";
@@ -140,9 +145,8 @@ move tictactoe::read_move() const {
         std::cout << "Invalid move." << std::endl;
         mv = read_move();
     }
-    return mv;    
+    return mv;
 }
-
 
 bool tictactoe::is_filled() const {
     // check all filled
@@ -155,7 +159,6 @@ bool tictactoe::is_filled() const {
     }
     return true;
 }
-
 
 int tictactoe::evaluate_board() const {
     // check horizontals
@@ -181,8 +184,7 @@ int tictactoe::evaluate_board() const {
     return INT_MIN;
 }
 
-
-move tictactoe::find_best_move() {
+move tictactoe::find_best_move_cross() {
     int best_score = INT_MIN;
     move move = {-1, -1};
 
@@ -192,17 +194,16 @@ move tictactoe::find_best_move() {
             if (this->board[i][j] != mark::empty) continue;
 
             // do move
-            this->board[i][j] = opponent;
+            this->board[i][j] = mark::cross;
 
-            bool is_maximizing = player == mark::cross;
-            int score = is_maximizing ? maxi() : mini();
+            int score = mini();
 
             // undo move
             this->board[i][j] = mark::empty;
 
             if (score > best_score) {
                 best_score = score;
-                move = {i, j};                    
+                move = {i, j};
             }
         }
     }
@@ -210,7 +211,34 @@ move tictactoe::find_best_move() {
     return move;
 }
 
-int tictactoe::mini() {    
+move tictactoe::find_best_move_nought() {
+    int best_score = INT_MAX;
+    move move = {-1, -1};
+
+    // loop over all spaces and determine best move
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (this->board[i][j] != mark::empty) continue;
+
+            // do move
+            this->board[i][j] = mark::nought;
+
+            int score = maxi();
+
+            // undo move
+            this->board[i][j] = mark::empty;
+
+            if (score < best_score) {
+                best_score = score;
+                move = {i, j};
+            }
+        }
+    }
+
+    return move;
+}
+
+int tictactoe::mini() {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
@@ -226,7 +254,7 @@ int tictactoe::mini() {
             if (this->board[i][j] != mark::empty) continue;
 
             // do move
-            this->board[i][j] = player;
+            this->board[i][j] = mark::nought;
 
             int score = maxi();
 
@@ -240,7 +268,7 @@ int tictactoe::mini() {
     return best_score;
 }
 
-int tictactoe::maxi() {    
+int tictactoe::maxi() {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
@@ -256,7 +284,7 @@ int tictactoe::maxi() {
             if (this->board[i][j] != mark::empty) continue;
 
             // do move
-            this->board[i][j] = opponent;
+            this->board[i][j] = mark::cross;
 
             int score = mini();
 

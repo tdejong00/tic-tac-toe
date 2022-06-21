@@ -35,7 +35,7 @@ class tictactoe {
         ~tictactoe();
 
         // Starts the tic-tac-toe game against the AI.
-        void play_game(bool const &is_random_ai);
+        void play_game(bool const &is_random_ai, bool const &is_crosses);
         
     private:
         mark board[SIZE][SIZE]; // The board containing noughts and crosses.
@@ -43,25 +43,31 @@ class tictactoe {
         mark opponent; // Mark of the opponent.
         mark current_player; // Mark of the current player.
         
+        // Resets the board to empty fields.
+        void reset_board();
+
         // Writes a string representation of the board to the output.
         void draw_board() const;
 
         // Determines whether a move is valid.
         bool is_valid_move(move const &mv) const;
 
-        // Read a move from input of the user.
+        // Read a move from stdin.
         move read_move() const;     
 
         // Determines if the board is completely filled.
         bool is_filled() const;
 
-        // Evaluates a the state of the board.
+        // Evaluates the state of the board.
         // Returns 10 if noughts won, -10 if crosses won, or 0 if its a draw.
         // Returns INT_MIN  when board is not in a terminal state.
         int evaluate_board() const;
 
-        // Finds the best possible move for the AI.
-        move find_best_move();
+        // Finds the best possible move for the crosses player.
+        move find_best_move_cross();
+
+        // Finds the best possible move for the noughts player.
+        move find_best_move_nought();
 
         // Minimum value part of the minimax-algorithm for deciding the best possible score.
         int mini();
