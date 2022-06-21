@@ -7,10 +7,6 @@ tictactoe::tictactoe() {
     this->current_player = mark::cross;
 }
 
-tictactoe::~tictactoe() {
-    // TODO: Implement if necessary
-}
-
 void tictactoe::play_game(bool const &is_random_ai, bool const &is_crosses) {
     this->reset_board();
 

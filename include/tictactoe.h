@@ -28,11 +28,8 @@ enum mark {
 // Class containing functions for playing a tic-tac-toe game against an AI.
 class tictactoe {
     public:
-        // Initializes a new instance of the tictactoe class with an initialized board.
+        // Initializes a new instance of the tictactoe class.
         tictactoe();
-
-        // Destroys the instance of the tictactoe class.
-        ~tictactoe();
 
         // Starts the tic-tac-toe game against the AI.
         void play_game(bool const &is_random_ai, bool const &is_crosses);
