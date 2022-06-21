@@ -148,18 +148,6 @@ move tictactoe::read_move() const {
     return mv;
 }
 
-bool tictactoe::is_filled() const {
-    // check all filled
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (this->board[i][j] == mark::empty) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 int tictactoe::evaluate_board() const {
     // check horizontals
     if (this->board[0][0] == this->board[0][1] && this->board[0][1] == this->board[0][2] && this->board[0][0] != mark::empty) return this->board[0][0];
@@ -175,13 +163,15 @@ int tictactoe::evaluate_board() const {
     if (this->board[0][0] == this->board[1][1] && this->board[1][1] == this->board[2][2] && this->board[0][0] != mark::empty) return this->board[0][0];
     if (this->board[0][2] == this->board[1][1] && this->board[1][1] == this->board[2][0] && this->board[0][2] != mark::empty) return this->board[0][2];
 
-    // check draw
-    if (this->is_filled()) {
-        return 0;
+    // check if entire board is filled
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (this->board[i][j] == mark::empty) {
+                return INT_MIN;
+            }
+        }
     }
-
-    // not a terminal state
-    return INT_MIN;
+    return 0;
 }
 
 move tictactoe::find_best_move_cross() {

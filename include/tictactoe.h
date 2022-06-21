@@ -53,10 +53,7 @@ class tictactoe {
         bool is_valid_move(move const &mv) const;
 
         // Read a move from stdin.
-        move read_move() const;     
-
-        // Determines if the board is completely filled.
-        bool is_filled() const;
+        move read_move() const;
 
         // Evaluates the state of the board.
         // Returns 10 if noughts won, -10 if crosses won, or 0 if its a draw.
