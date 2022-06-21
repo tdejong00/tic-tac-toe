@@ -49,7 +49,10 @@ class tictactoe {
         // Determines whether a move is valid.
         bool is_valid_move(move const &mv) const;
 
-        // Read a move from stdin.
+        // Reads a row or column index from stdin.
+        int read_index(bool const &is_row) const;
+
+        // Reads a move from stdin.
         move read_move() const;
 
         // Evaluates the state of the board.

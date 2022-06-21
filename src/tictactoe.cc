@@ -113,28 +113,28 @@ bool tictactoe::is_valid_move(move const &mv) const {
     return this->board[mv.row][mv.column] == mark::empty;
 }
 
+int tictactoe::read_index(bool const &is_row) const {
+    char index;
+
+    std::cout << "Type a " << (is_row ? "row" : "column") << " number: ";
+    std::cin >> index;
+    std::cin.clear();
+    std::cin.ignore(INT_MAX, '\n');
+
+    while (index < '0' || index > '2') {
+        std::cout << "Invalid " << (is_row ? "row" : "column") <<" number. ";
+        std::cout << "Type a " << (is_row ? "row" : "column") << " number between 0 and 2: ";
+        std::cin >> index;
+        std::cin.clear();
+        std::cin.ignore(INT_MAX, '\n');
+    }
+
+    return index - '0';
+}
+
 move tictactoe::read_move() const {
-    int row = -1, column = -1;
-
-    std::cout << "Type a row number: ";
-    std::cin >> row;
-    std::cin.clear();
-    std::cin.ignore(INT_MAX, '\n');
-
-    while (row < 0 || row > 2) {
-        std::cout << "Invalid row number. Type a row number between 0 and 2: ";
-        std::cin >> row;
-    }
-
-    std::cout << "Type a column number: ";
-    std::cin >> column;
-    std::cin.clear();
-    std::cin.ignore(INT_MAX, '\n');
-
-    while (column < 0 || column > 2) {
-        std::cout << "Invalid column number. Type a column number between 0 and 2: ";
-        std::cin >> column;
-    }
+    int row = read_index(true);
+    int column = read_index(false);
 
     move mv = {row, column};
     if (!this->is_valid_move(mv)) {
