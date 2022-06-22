@@ -66,13 +66,13 @@ class tictactoe {
         // Finds the best possible move for the noughts player.
         move find_best_move_nought();
 
-        // Minimum value part of the minimax-algorithm for deciding 
-        // the best possible score with alpha-beta pruning.
-        int mini(int alpha, int beta);
+        // Minimum value part of the minimax-algorithm for deciding the best
+        // best possible score with alpha-beta pruning standardized by depth.
+        int mini(int alpha, int beta, int depth);
 
-        // Maximum value part of the minimax-algorithm for deciding 
-        // the best possible score with alpha-beta pruning.
-        int maxi(int alpha, int beta);
+        // Maximum value part of the minimax-algorithm for deciding the best
+        // best possible score with alpha-beta pruning standardized by depth.
+        int maxi(int alpha, int beta, int depth);
 };
 
 // Clears all text in the terminal.

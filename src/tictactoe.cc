@@ -182,7 +182,7 @@ move tictactoe::find_best_move_cross() {
             // do move
             this->board[i][j] = mark::cross;
 
-            int score = mini(INT_MIN, INT_MAX);
+            int score = mini(INT_MIN, INT_MAX, 0);
 
             // undo move
             this->board[i][j] = mark::empty;
@@ -209,7 +209,7 @@ move tictactoe::find_best_move_nought() {
             // do move
             this->board[i][j] = mark::nought;
 
-            int score = maxi(INT_MAX, INT_MIN);
+            int score = maxi(INT_MAX, INT_MIN, 0);
 
             // undo move
             this->board[i][j] = mark::empty;
@@ -224,12 +224,12 @@ move tictactoe::find_best_move_nought() {
     return move;
 }
 
-int tictactoe::mini(int alpha, int beta) {
+int tictactoe::mini(int alpha, int beta, int depth) {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
     if (result != INT_MIN) {
-        return result;
+        return result - depth;
     }
     
     int best_score = INT_MAX;
@@ -242,7 +242,7 @@ int tictactoe::mini(int alpha, int beta) {
             // do move
             this->board[i][j] = mark::nought;
 
-            int score = maxi(alpha, beta);
+            int score = maxi(alpha, beta, depth + 1);
 
             // undo move
             this->board[i][j] = mark::empty;
@@ -259,12 +259,12 @@ int tictactoe::mini(int alpha, int beta) {
     return best_score;
 }
 
-int tictactoe::maxi(int alpha, int beta) {
+int tictactoe::maxi(int alpha, int beta, int depth) {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
     if (result != INT_MIN) {
-        return result;
+        return result + depth;
     }
 
     int best_score = INT_MIN;
@@ -277,7 +277,7 @@ int tictactoe::maxi(int alpha, int beta) {
             // do move
             this->board[i][j] = mark::cross;
 
-            int score = mini(alpha, beta);
+            int score = mini(alpha, beta, depth + 1);
 
             // undo move
             this->board[i][j] = mark::empty;
