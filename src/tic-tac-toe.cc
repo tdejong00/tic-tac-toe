@@ -1,4 +1,4 @@
-#include "../include/tictactoe.h"
+#include "../include/tic-tac-toe.h"
 
 #include <iostream>
 #include <climits>

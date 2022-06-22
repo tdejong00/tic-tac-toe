@@ -9,15 +9,15 @@ COMPILER = g++
 PARAMETERS = -c -Wall -Wextra -Wpedantic -Wshadow -Wconversion -std=c++17
 
 TARGET = tic-tac-toe
-OBJECTS = tictactoe.o main.o
+OBJECTS = tic-tac-toe.o main.o
 
 all: $(OBJECTS)
 	$(COMPILER) $(OBJECTS) -o $(TARGET)
 
-tictactoe.o: ./$(SRC)/tictactoe.cc ./$(INC)/tictactoe.h
-	$(COMPILER) $(PARAMETERS) ./$(SRC)/tictactoe.cc
+tic-tac-toe.o: ./$(SRC)/tic-tac-toe.cc ./$(INC)/tic-tac-toe.h
+	$(COMPILER) $(PARAMETERS) ./$(SRC)/tic-tac-toe.cc
 
-main.o: main.cc ./$(INC)/tictactoe.h
+main.o: main.cc ./$(INC)/tic-tac-toe.h
 	$(COMPILER) $(PARAMETERS) main.cc
 
 install:

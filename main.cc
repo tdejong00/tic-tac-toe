@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 
-#include "./include/tictactoe.h"
+#include "./include/tic-tac-toe.h"
 
 // Prints list of available command line arguments.
 void printHelp() {
