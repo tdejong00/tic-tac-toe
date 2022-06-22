@@ -4,8 +4,8 @@
 #include "./include/tictactoe.h"
 
 // Prints list of available command line arguments.
-void print_help() {
-    std::cout << tictactoe::APPNAME << " " << tictactoe::VERSION << std::endl;
+void printHelp() {
+    std::cout << tictactoe::APP_NAME << " " << tictactoe::VERSION << std::endl;
     std::cout << "Play a game of Tic-Tac-Toe against an AI." << std::endl;
     std::cout << std::endl;
     std::cout << "Usage: ./tic-tac-toe [OPTIONS]..." << std::endl;
@@ -34,11 +34,11 @@ int main(int argc, char *argv[]) {
     else if (argc > 1) {
         for (int i = 1; i < argc; i++) {
             if (std::strcmp(argv[i], "--help") == 0) {
-                print_help();
+                printHelp();
                 return 0;
             }
             if (std::strcmp(argv[i], "--version") == 0) {
-                std::cout << tictactoe::APPNAME << " " << tictactoe::VERSION << std::endl;
+                std::cout << tictactoe::APP_NAME << " " << tictactoe::VERSION << std::endl;
                 return 0;
             }
             else if (std::strcmp(argv[i], "--method=r") == 0) {
@@ -60,9 +60,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    tictactoe::game* game = new tictactoe::game(is_random, is_crosses);
-    game->play();
-    delete game;
+    tictactoe::Game game(is_random, is_crosses);
+    game.play();
 
     return 0;
 }
