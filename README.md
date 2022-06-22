@@ -11,7 +11,7 @@ This program lets you play a game of Tic-Tac-Toe against an AI that uses the [mi
 - make 4.2.1
 
 ## Installation (Linux)
-1. Clone this repository
+1. Clone or download this repository
 2. Navigate to root directory of this repository
 3. `make`
 4. `sudo make install`
