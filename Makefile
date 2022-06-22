@@ -1,6 +1,10 @@
 INC = include
 SRC = src
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
 COMPILER = g++
 PARAMETERS = -c -Wall -Wextra -Wpedantic -Wshadow -Wconversion -std=c++17
 
@@ -15,6 +19,12 @@ tictactoe.o: ./$(SRC)/tictactoe.cc ./$(INC)/tictactoe.h
 
 main.o: main.cc ./$(INC)/tictactoe.h
 	$(COMPILER) $(PARAMETERS) main.cc
+
+install:
+	install $(TARGET) $(DESTDIR)$(PREFIX)/bin
+
+uninstall:
+	rm $(DESTDIR)$(PREFIX)/bin/$(TARGET)
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)

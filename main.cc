@@ -12,12 +12,15 @@ void printHelp() {
     std::cout << std::endl;
     std::cout << "  --help" << std::endl;
     std::cout << "      Show help for all options" << std::endl;
+    std::cout << std::endl;
     std::cout << "  --version" << std::endl;
     std::cout << "      Show version number of this application" << std::endl;
+    std::cout << std::endl;
     std::cout << "  --method=<r|m> [default: m]" << std::endl;
     std::cout << "      Set the method of the AI to either 'r' (AI makes random decisions) or 'm' (AI uses the minimax-algorithm)" << std::endl;
+    std::cout << std::endl;
     std::cout << "  --player=<x|o> [default: o]" << std::endl;
-    std::cout << "      Set the mark of the player to either 'x' (crosses) or 'o' (noughts). The AI will automatically have the other mark." << std::endl;
+    std::cout << "      Set the mark of the player to either 'x' (crosses) or 'o' (noughts)." << std::endl;
     std::cout << std::endl;
     std::cout << "Exit status:" << std::endl;
     std::cout << " 0 if OK" << std::endl;
