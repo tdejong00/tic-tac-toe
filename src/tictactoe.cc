@@ -182,7 +182,7 @@ move tictactoe::find_best_move_cross() {
             // do move
             this->board[i][j] = mark::cross;
 
-            int score = mini();
+            int score = mini(INT_MIN, INT_MAX);
 
             // undo move
             this->board[i][j] = mark::empty;
@@ -209,7 +209,7 @@ move tictactoe::find_best_move_nought() {
             // do move
             this->board[i][j] = mark::nought;
 
-            int score = maxi();
+            int score = maxi(INT_MAX, INT_MIN);
 
             // undo move
             this->board[i][j] = mark::empty;
@@ -224,7 +224,7 @@ move tictactoe::find_best_move_nought() {
     return move;
 }
 
-int tictactoe::mini() {
+int tictactoe::mini(int alpha, int beta) {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
@@ -242,19 +242,24 @@ int tictactoe::mini() {
             // do move
             this->board[i][j] = mark::nought;
 
-            int score = maxi();
+            int score = maxi(alpha, beta);
 
             // undo move
             this->board[i][j] = mark::empty;
 
             best_score = std::min(score, best_score);
+
+            beta = std::min(beta, best_score);
+            if (beta <= alpha) {
+                break;
+            }
         }
     }
 
     return best_score;
 }
 
-int tictactoe::maxi() {
+int tictactoe::maxi(int alpha, int beta) {
     int result = this->evaluate_board();
 
     // return score if board is in terminal state
@@ -272,12 +277,17 @@ int tictactoe::maxi() {
             // do move
             this->board[i][j] = mark::cross;
 
-            int score = mini();
+            int score = mini(alpha, beta);
 
             // undo move
             this->board[i][j] = mark::empty;
 
             best_score = std::max(score, best_score);
+
+            alpha = std::max(alpha, best_score);
+            if (beta <= alpha) {
+                break;
+            }
         }
     }
 
